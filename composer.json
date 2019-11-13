@@ -1,0 +1,6 @@
+{
+    "name": "marimo_kadai/marimo_kadai",
+    "require": {
+        "smarty/smarty": "^3.1"
+    }
+}

@@ -1,0 +1,50 @@
+<?php
+//使用したSQL文を入れる変数。デバッグに使う
+$usedSqls = [];
+
+//DB接続確立func
+function dbConnect(){
+	$pdo = null;
+
+	try{
+		$pdo = new PDO('mysql:dbname='.SQL_DB.';host='.SQL_SERVER.';charset=utf8mb4;', SQL_USER, SQL_PASS);
+	}catch (PDOException $e){
+		return false;
+	}
+
+	return $pdo;
+}
+
+//SELECT SQL実行、抽出ポインタreturn func。returnされたインスタンスを以下のように使い値を取り出す
+/*
+$catch = selectQueryExe($pdo
+    ,"SELECT nhrs_id, nhrs_title, nhrs_link FROM new_hatena_rss WHERE nhrs_link = 'http://localhost/'"
+);
+
+while($row = $catch->fetch(PDO::FETCH_ASSOC){
+    echo $row["nhrs_id"]."::".$row["nhrs_title"]."::".$row["nhrs_link"];
+}
+*/
+function selectQueryExe($pdo, $sql, $isNotSaveSql = false){
+	global $usedSqls;
+	if(!$isNotSaveSql) $usedSqls[] = $sql; //使用したSQLを配列に記録。第三引数にtrueが渡された場合記録しない
+	$catch = $pdo->prepare($sql);
+	$flag = $catch->execute();
+	if (!$flag) return false;
+
+	return $catch;
+}
+
+//SQL実行func
+function queryExe($pdo, $sql, $isNotSaveSql = false){
+	global $usedSqls;
+	if(!$isNotSaveSql) $usedSqls[] = $sql; //使用したSQLを配列に記録。第三引数にtrueが渡された場合記録しない
+	$catch = $pdo->prepare($sql);
+	$flag = $catch->execute();
+	if (!$flag) return false;
+
+	return true;
+}
+
+//db接続確立、DB接続済みインスタンスをグローバル変数$pdoへ代入
+$pdo = dbConnect();
