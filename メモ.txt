@@ -104,3 +104,6 @@ index index.php index.html index.htm;
 
 
 sudo chown -R www-data:www-data /usr/share/nginx/html/
+
+
+sudo chmod -R 755 /usr/share/nginx/html/
