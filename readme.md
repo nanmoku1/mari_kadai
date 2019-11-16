@@ -10,5 +10,12 @@
 Smarty  
   
 それ以外はフルスクラッチ  
-
-
+  
+  
+[設置方法]  
+・web公開  
+ソース一式配置後、「public」ディレクトリをサーバソフトのドキュメントルートに設定  
+  
+・はてぶRSS巡回バッチをcronに設定  
+cronバッチ設定にて、「bat/getHatena.php」を以下のように5分ごとにバッチが動作するように設定  
+`0-59/5 * * * * php /usr/share/nginx/html/bat/getHatena.php`  
