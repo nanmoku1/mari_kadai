@@ -1,0 +1,109 @@
+kadai2 / 44QQr6Ka
+
+user: marimo-test
+pw: 1uahSqkyFE8N
+
+mysql 動作確認
+ssh ログイン後
+mysql -u root -p
+(pw: uHRl2bCG4TpI)
+
+http://192.168.56.2/
+http://192.168.56.2/phpinfo.php
+
+service --status-all
+
+
+docker is configured to use the default machine with IP 192.168.99.100
+For help getting started, check out the docs at https://docs.docker.com
+
+
+Start interactive shell
+
+
+
+GRANT ALL PRIVILEGES ON *.* TO root@'192.168.56.1' IDENTIFIED BY 'uHRl2bCG4TpI' WITH GRANT OPTION;
+
+
+/etc/mysql/my.cnf
+
+
+/etc/nginx/sites-available/default
+
+/usr/share/nginx/html
+
+
+sudo cat /etc/passwd
+ 
+sudo apt update
+sudo apt install -y dkms
+sudo apt upgrade -y → これはいらない？
+
+
+sudo mkdir -p /mnt/cdrom
+sudo mount -r /dev/cdrom /mnt/cdrom
+
+sudo ./VBoxLinuxAdditions.run
+もしくは
+sudo /mnt/cdrom/VBoxLinuxAdditions.run
+
+sudo reboot　#CentOSの再起動
+
+sudo mount -t vboxsf marimo_kadai /usr/share/nginx/html
+
+外す
+sudo umount marimo_kadai
+
+
+sudo curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+
+
+sudo mkdir -p ./public
+
+composer init
+
+composer require smarty/smarty
+
+
+・/etc/php5/cli/php.ini→これは違う
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT→error_reporting = E_ALL
+display_errors = Off→display_errors = On
+display_startup_errors = Off→display_startup_errors = On
+log_errors = On→log_errors = Off
+
+
+/etc/php5/fpm/php.ini→こっち
+display_errors = Off→display_errors = On
+
+
+sudo /etc/init.d/php5-fpm restart
+
+
+
+#sudo apt upgrade -y opensll openssl-devel
+
+
+curl https://b.hatena.ne.jp/entrylist.rss
+
+
+INSERT INTO new_hatena_rss(nhrs_title ,nhrs_link ,nhrs_dsc ,nhrs_h_date ,nhrs_add_date ,nhrs_up_date) VALUES ('タイトル', 'リンク', 'dsc', '2019-11-08 00:00:01', '2019-11-08 00:00:02', '2019-11-08 00:00:03')
+
+
+
+sudo crontab -u www-data -e
+
+0-59/5 * * * * php /usr/share/nginx/html/bat/getHatena.php
+
+
+/etc/nginx/sites-available
+index index.html index.htm;
+↓
+index index.php index.html index.htm;
+
+
+
+sudo chown -R www-data:www-data /usr/share/nginx/html/
+
+
+sudo chmod -R 755 /usr/share/nginx/html/
