@@ -14,8 +14,11 @@ Smarty
   
 [設置方法]  
 ・web公開  
-ソース一式配置後、「public」ディレクトリをサーバソフトのドキュメントルートに設定  
+　1.「create_sql.sql」を使いMYSQLサーバへ必要DBとテーブルを作成  
+　2.「config.php」に定義されている各種定数を動作させるサーバ環境に合わせて設定する。  
+　  必要設定内容は、「config.php」内にてコメントアウトで説明を記述している  
+　3.ソース一式配置後、「public」ディレクトリをサーバソフトのドキュメントルートに設定  
   
 ・はてぶRSS巡回バッチをcronに設定  
-cronバッチ設定にて、「bat/getHatena.php」を以下のように5分ごとにバッチが動作するように設定  
+「web公開」手順で配置したソース一式の中にある「bat/getHatena.php」を、cronバッチ設定にて以下のように5分ごとにバッチが動作するように設定  
 `0-59/5 * * * * php /usr/share/nginx/html/bat/getHatena.php`  
