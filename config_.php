@@ -23,6 +23,23 @@
 // require_once(dirname(__FILE__)."/vendor/autoload.php");
 
 return [
+    //ベースURL。末尾に「/」は付けない
     "base_url"=>"http://192.168.56.2"
+
+    //プロジェクトルートパス
     ,"pj_root_path"=>dirname(__FILE__)
+
+    //smarty各種作業フォルダパス
+    ,"smarty_work_dir"=>dirname(__FILE__)."/smarty"
+    ,"smarty_work_templ_dir"=>dirname(__FILE__)."/smarty/templates"
+    ,"smarty_work_templ_c_dir"=>dirname(__FILE__)."/smarty/templates_c"
+    ,"smarty_work_templ_conf_dir"=>dirname(__FILE__)."/smarty/configs"
+    ,"smarty_work_templ_cache_dir"=>dirname(__FILE__)."/smarty/cache"
+
+    //DB接続情報
+    //,"sql_server"=>"192.168.56.2"
+    ,"sql_server"=>"localhost"
+    ,"sql_db"=>"get_hatena_data"
+    ,"sql_user"=>"root"
+    ,"sql_pass"=>"uHRl2bCG4TpI"
 ];

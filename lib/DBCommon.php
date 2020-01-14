@@ -9,7 +9,7 @@ class DBCommon{
 		$pdo = null;
 
 		try{
-			$pdo = new PDO('mysql:dbname='.SQL_DB.';host='.SQL_SERVER.';charset=utf8mb4;', SQL_USER, SQL_PASS);
+			$pdo = new PDO('mysql:dbname='.ConfigUtil::read("sql_db").';host='.ConfigUtil::read("sql_server").';charset=utf8mb4;', ConfigUtil::read("sql_user"), ConfigUtil::read("sql_pass"));
 		}catch (PDOException $e){
 			return false;
 		}

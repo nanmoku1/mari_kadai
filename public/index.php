@@ -1,9 +1,12 @@
 <?php
-require_once(dirname(dirname(__FILE__))."/config.php");
-require_once(PJ_ROOT_PATH."/lib/ConfigUtil.php");
+//require_once(dirname(dirname(__FILE__))."/config.php");
+//composerライブラリ有効化
+require_once(dirname(dirname(__FILE__))."/vendor/autoload.php");
+require_once(dirname(dirname(__FILE__))."/lib/ConfigUtil.php");
 ConfigUtil::init();
-require_once(PJ_ROOT_PATH."/lib/DBCommon.php");
-require_once(PJ_ROOT_PATH."/lib/HelperUtil.php");
+
+require_once(ConfigUtil::read("pj_root_path")."/lib/DBCommon.php");
+require_once(ConfigUtil::read("pj_root_path")."/lib/HelperUtil.php");
 
 $pdo = DBCommon::dbConnect();
 
@@ -103,17 +106,17 @@ $nhrses = $catch->fetchAll(PDO::FETCH_ASSOC);
 
 //smarty準備
 $smarty = new Smarty();
-$smarty->template_dir = SMARTY_WORK_TEMPL_DIR;
-$smarty->compile_dir  = SMARTY_WORK_TEMPL_C_DIR;
-$smarty->config_dir   = SMARTY_WORK_TEMPL_CONF_DIR;
-$smarty->cache_dir    = SMARTY_WORK_TEMPL_CACHE_DIR;
+$smarty->template_dir = ConfigUtil::read("smarty_work_templ_dir");
+$smarty->compile_dir  = ConfigUtil::read("smarty_work_templ_c_dir");
+$smarty->config_dir   = ConfigUtil::read("smarty_work_templ_conf_dir");
+$smarty->cache_dir    = ConfigUtil::read("smarty_work_templ_cache_dir");
 
-//$smarty->assign('baseUrl', BASE_URL);
+//$smarty->assign('baseUrl', ConfigUtil::read("base_url"));
 //テンプレートへ受け渡し値
 $smarty->assign('nhrses', $nhrses); //抽出データ
 $smarty->assign('allCnt', $allCnt); //抽出条件に掛かった全件の件数
 $smarty->assign('cPage', $cPage); //現在表示中のページ
-$smarty->assign('urlPara', BASE_URL.$urlPara); //URL用の抽出条件パラメータ
+$smarty->assign('urlPara', ConfigUtil::read("base_url").$urlPara); //URL用の抽出条件パラメータ
 //入力中の検索条件値
 $smarty->assign('revPara', ["ol_date"=>$inOlDate, "bf_date"=>$inBfDate, "link_url"=>$inLinkUrl, "title"=>$inTitle]);
 
