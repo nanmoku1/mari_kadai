@@ -1,7 +1,11 @@
 <?php
 require_once(dirname(dirname(__FILE__))."/config.php");
-require_once(PJ_ROOT_PATH."/lib/dbCommon.php");
-require_once(PJ_ROOT_PATH."/lib/functions.php");
+require_once(PJ_ROOT_PATH."/lib/ConfigUtil.php");
+ConfigUtil::init();
+require_once(PJ_ROOT_PATH."/lib/DBCommon.php");
+require_once(PJ_ROOT_PATH."/lib/HelperUtil.php");
+
+$pdo = DBCommon::dbConnect();
 
 //入力検索条件を元に各種値の整理
 $sqlBase = "FROM new_hatena_rss WHERE nhrs_del_flg = 0 ";
@@ -77,7 +81,7 @@ if(!empty($inTitle)){
 
 //抽出条件に掛かった件数を抽出
 $sql = "SELECT COUNT(nhrs_id) AS nhrs_cnt ".$sqlBase;
-$catch = selectQueryExe($pdo
+$catch = DBCommon::selectQueryExe($pdo
     ,$sql
 );
 $row = $catch->fetch(PDO::FETCH_ASSOC);
@@ -92,7 +96,7 @@ if(!empty($_GET["page"])){
     $sql.= "{$offset}, ";
 }
 $sql.= "50 ";
-$catch = selectQueryExe($pdo
+$catch = DBCommon::selectQueryExe($pdo
     ,$sql
 );
 $nhrses = $catch->fetchAll(PDO::FETCH_ASSOC);

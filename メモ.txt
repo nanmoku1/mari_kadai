@@ -11,6 +11,22 @@ mysql -u root -p
 http://192.168.56.2/
 http://192.168.56.2/phpinfo.php
 
+
+C:\Program Files\Oracle\VirtualBox
+
+ [Windows][VirtualBox] VBoxManage から setextradata した設定一覧の確認。
+
+> VBoxManage.exe getextradata "仮想マシン名" enumerate
+
+./VBoxManage.exe getextradata "Ubuntu14" enumerate
+
+
+VBoxManage.exe setextradata 仮想マシン名 VBoxInternal2/SharedFoldersEnableSymlinksCreate/共有フォルダ名 1
+
+./VBoxManage.exe setextradata "Ubuntu14" VBoxInternal2/SharedFoldersEnableSymlinksCreate/marimo_kadai 1
+消すとき:./VBoxManage.exe setextradata "Ubuntu14" VBoxInternal2/SharedFoldersEnableSymlinksCreate/marimo_kadai
+
+
 service --status-all
 
 

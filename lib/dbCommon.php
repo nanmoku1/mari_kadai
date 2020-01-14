@@ -1,50 +1,55 @@
 <?php
-//使用したSQL文を入れる変数。デバッグに使う
-$usedSqls = [];
+class DBCommon{
+	//使用したSQL文を入れる変数。デバッグに使う
+	//$usedSqls = [];
+	protected static $_usedSqls = [];
 
-//DB接続確立func
-function dbConnect(){
-	$pdo = null;
+	//DB接続確立func
+	public static function dbConnect(){
+		$pdo = null;
 
-	try{
-		$pdo = new PDO('mysql:dbname='.SQL_DB.';host='.SQL_SERVER.';charset=utf8mb4;', SQL_USER, SQL_PASS);
-	}catch (PDOException $e){
-		return false;
+		try{
+			$pdo = new PDO('mysql:dbname='.SQL_DB.';host='.SQL_SERVER.';charset=utf8mb4;', SQL_USER, SQL_PASS);
+		}catch (PDOException $e){
+			return false;
+		}
+
+		return $pdo;
 	}
 
-	return $pdo;
-}
+	//SELECT SQL実行、抽出ポインタreturn func。returnされたインスタンスを以下のように使い値を取り出す
+	/*
+	$catch = selectQueryExe($pdo
+		,"SELECT nhrs_id, nhrs_title, nhrs_link FROM new_hatena_rss WHERE nhrs_link = 'http://localhost/'"
+	);
 
-//SELECT SQL実行、抽出ポインタreturn func。returnされたインスタンスを以下のように使い値を取り出す
-/*
-$catch = selectQueryExe($pdo
-    ,"SELECT nhrs_id, nhrs_title, nhrs_link FROM new_hatena_rss WHERE nhrs_link = 'http://localhost/'"
-);
+	while($row = $catch->fetch(PDO::FETCH_ASSOC){
+		echo $row["nhrs_id"]."::".$row["nhrs_title"]."::".$row["nhrs_link"];
+	}
+	*/
+	public static function selectQueryExe($pdo, $sql, $isNotSaveSql = false){
+		if(!$isNotSaveSql) self::$_usedSqls[] = $sql; //使用したSQLを配列に記録。第三引数にtrueが渡された場合記録しない
+		$catch = $pdo->prepare($sql);
+		$flag = $catch->execute();
+		if (!$flag) return false;
 
-while($row = $catch->fetch(PDO::FETCH_ASSOC){
-    echo $row["nhrs_id"]."::".$row["nhrs_title"]."::".$row["nhrs_link"];
-}
-*/
-function selectQueryExe($pdo, $sql, $isNotSaveSql = false){
-	global $usedSqls;
-	if(!$isNotSaveSql) $usedSqls[] = $sql; //使用したSQLを配列に記録。第三引数にtrueが渡された場合記録しない
-	$catch = $pdo->prepare($sql);
-	$flag = $catch->execute();
-	if (!$flag) return false;
+		return $catch;
+	}
 
-	return $catch;
-}
+	//SQL実行func
+	public static function queryExe($pdo, $sql, $isNotSaveSql = false){
+		if(!$isNotSaveSql) self::$_usedSqls[] = $sql; //使用したSQLを配列に記録。第三引数にtrueが渡された場合記録しない
+		$catch = $pdo->prepare($sql);
+		$flag = $catch->execute();
+		if (!$flag) return false;
 
-//SQL実行func
-function queryExe($pdo, $sql, $isNotSaveSql = false){
-	global $usedSqls;
-	if(!$isNotSaveSql) $usedSqls[] = $sql; //使用したSQLを配列に記録。第三引数にtrueが渡された場合記録しない
-	$catch = $pdo->prepare($sql);
-	$flag = $catch->execute();
-	if (!$flag) return false;
+		return true;
+	}
 
-	return true;
+	public static function getUsedSqls(){
+		return self::$_usedSqls;
+	}
 }
 
 //db接続確立、DB接続済みインスタンスをグローバル変数$pdoへ代入
-$pdo = dbConnect();
+//$pdo = dbConnect();

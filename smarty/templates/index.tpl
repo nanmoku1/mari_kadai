@@ -74,7 +74,7 @@
         </table>
     </div>
     <div>
-    {$cPage|makeCSMPageTag:50:$allCnt:$urlPara:5}
+    {HelperUtil::makeCSMPageTag($cPage, 50, $allCnt, $urlPara, 5)}
     </div>
 </body>
 </html>
