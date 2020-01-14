@@ -2,6 +2,7 @@
 //require_once(dirname(dirname(__FILE__))."/config.php");
 //composerライブラリ有効化
 require_once(dirname(dirname(__FILE__))."/vendor/autoload.php");
+
 require_once(dirname(dirname(__FILE__))."/lib/ConfigUtil.php");
 ConfigUtil::init();
 
