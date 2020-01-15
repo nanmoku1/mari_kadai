@@ -1,4 +1,6 @@
 <?php
+namespace app\util;
+
 class HelperUtil{
 	public static function makeCSMPageTag($tPage //現在のページ番号
         ,$tLimit //1ページに表示する件数

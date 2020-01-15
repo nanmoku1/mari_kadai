@@ -3,11 +3,10 @@
 //composerライブラリ有効化
 require_once(dirname(dirname(__FILE__))."/vendor/autoload.php");
 
-require_once(dirname(dirname(__FILE__))."/lib/ConfigUtil.php");
-ConfigUtil::init();
+use app\util\ConfigUtil;
+use app\util\DBCommon;
 
-require_once(ConfigUtil::read("pj_root_path")."/lib/DBCommon.php");
-require_once(ConfigUtil::read("pj_root_path")."/lib/HelperUtil.php");
+ConfigUtil::init();
 
 $pdo = DBCommon::dbConnect();
 
@@ -106,7 +105,10 @@ $catch = DBCommon::selectQueryExe($pdo
 $nhrses = $catch->fetchAll(PDO::FETCH_ASSOC);
 
 //smarty準備
-$smarty = new Smarty();
+//$smarty = new Smarty();
+$smarty = new SmartyBC();
+//$smarty->allow_php_tag = true; これはダメだった。多くのリファレンスサイトに書かれていた方法なのだが…
+$smarty->php_handling = Smarty::PHP_ALLOW;
 $smarty->template_dir = ConfigUtil::read("smarty_work_templ_dir");
 $smarty->compile_dir  = ConfigUtil::read("smarty_work_templ_c_dir");
 $smarty->config_dir   = ConfigUtil::read("smarty_work_templ_conf_dir");

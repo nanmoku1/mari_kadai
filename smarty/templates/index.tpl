@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="{ConfigUtil::read("base_url")}/css/jquery-ui.css">
-<script type="text/javascript" src="{ConfigUtil::read("base_url")}/js/jquery-min.js"></script>
-<script type="text/javascript" src="{ConfigUtil::read("base_url")}/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{\app\util\ConfigUtil::read("base_url")}/css/jquery-ui.css">
+<script type="text/javascript" src="{\app\util\ConfigUtil::read("base_url")}/js/jquery-min.js"></script>
+<script type="text/javascript" src="{\app\util\ConfigUtil::read("base_url")}/js/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
@@ -38,7 +38,7 @@
 {/literal}
     <h2>{$allCnt}件</h2>
     <div>
-        <form class="form-inline" action="{ConfigUtil::read("base_url")}"  method="GET">
+        <form class="form-inline" action="{\app\util\ConfigUtil::read("base_url")}"  method="GET">
             <label class="col-form-label">日付</label>
             <input class="form-control" name="ol_date" type="text" style="width:130px" value="{if !empty($revPara["ol_date"])}{$revPara["ol_date"]}{/if}" />
             <label class="col-form-label">～</label>
@@ -74,7 +74,7 @@
         </table>
     </div>
     <div>
-    {HelperUtil::makeCSMPageTag($cPage, 50, $allCnt, $urlPara, 5)}
+    {\app\util\HelperUtil::makeCSMPageTag($cPage, 50, $allCnt, $urlPara, 5)}
     </div>
 </body>
 </html>

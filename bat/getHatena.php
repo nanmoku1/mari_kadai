@@ -1,6 +1,13 @@
 <?php
-require_once(dirname(dirname(__FILE__))."/config.php");
-require_once(PJ_ROOT_PATH."/lib/dbCommon.php");
+//composerライブラリ有効化
+require_once(dirname(dirname(__FILE__))."/vendor/autoload.php");
+
+use app\util\ConfigUtil;
+use app\util\DBCommon;
+
+ConfigUtil::init();
+
+$pdo = DBCommon::dbConnect();
 
 //処理1:新着チェック、登録----------------------------------------------------
 $curl = curl_init();
@@ -20,7 +27,7 @@ if($rtnInfo["http_code"] != 200){
     exit("失敗");
 }
 
-$hatenaXml = new SimpleXMLElement($rtnCnts);
+$hatenaXml = new \SimpleXMLElement($rtnCnts);
 // var_dump($hatenaXml);
 //var_dump($mediaChild);
 
@@ -50,7 +57,7 @@ foreach($hatenaXml->item as $hatenaData){
         continue;
     }
 
-    $catch = selectQueryExe($pdo
+    $catch = DBCommon::selectQueryExe($pdo
         ,"SELECT nhrs_id FROM new_hatena_rss WHERE nhrs_link = '".addslashes($hatenaData->link)."'"
     ); //nhrs_del_flgは抽出条件に入れない
 
@@ -62,7 +69,7 @@ foreach($hatenaXml->item as $hatenaData){
         continue;
     }
 
-    queryExe($pdo
+    DBCommon::queryExe($pdo
         , "INSERT INTO new_hatena_rss(nhrs_title ,nhrs_link ,nhrs_dsc ,nhrs_h_date ,nhrs_add_date ,nhrs_up_date) VALUES ('".addslashes($hatenaData->title)."', '".addslashes($hatenaData->link)."', '".addslashes($hatenaData->description)."', '{$dcData->date}', '{$nowDt}', '{$nowDt}')"
     );
 
@@ -73,29 +80,28 @@ foreach($hatenaXml->item as $hatenaData){
 
 //処理2:古い新着記事を削除----------------------------------------------------
 //本番:-3 day  テスト:-1 minutes
-queryExe($pdo
+DBCommon::queryExe($pdo
     ,"UPDATE new_hatena_rss SET nhrs_del_flg = 1, nhrs_up_date = '".date("Y-m-d H:i:s")."' WHERE nhrs_add_date <= '".date("Y-m-d H:i:s", strtotime("-3 day"))."'"
 );
 
 
 //処理3:日付ソートカラム番号割り振り直し----------------------------------------------------
 if($isAddData){
-    queryExe($pdo
+    DBCommon::queryExe($pdo
         ,"UPDATE new_hatena_rss SET nhrs_h_date_sort = 0 WHERE nhrs_del_flg = 0"
     );
 
-    $catch = selectQueryExe($pdo
+    $catch = DBCommon::selectQueryExe($pdo
         ,"SELECT nhrs_id FROM new_hatena_rss WHERE nhrs_del_flg = 0 ORDER BY nhrs_h_date"
     );
 
     for($i = 1; $i <= 20000; $i++){
         if( !($row = $catch->fetch(PDO::FETCH_ASSOC)) ) break;
     
-        queryExe($pdo
+        DBCommon::queryExe($pdo
             ,"UPDATE new_hatena_rss SET nhrs_h_date_sort = {$i} WHERE nhrs_id = {$row["nhrs_id"]}"
             ,true
         );
     }
 }
-
 

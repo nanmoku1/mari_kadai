@@ -1,4 +1,6 @@
 <?php
+namespace app\util;
+
 class DBCommon{
 	//使用したSQL文を入れる変数。デバッグに使う
 	//$usedSqls = [];
@@ -9,8 +11,8 @@ class DBCommon{
 		$pdo = null;
 
 		try{
-			$pdo = new PDO('mysql:dbname='.ConfigUtil::read("sql_db").';host='.ConfigUtil::read("sql_server").';charset=utf8mb4;', ConfigUtil::read("sql_user"), ConfigUtil::read("sql_pass"));
-		}catch (PDOException $e){
+			$pdo = new \PDO('mysql:dbname='.ConfigUtil::read("sql_db").';host='.ConfigUtil::read("sql_server").';charset=utf8mb4;', ConfigUtil::read("sql_user"), ConfigUtil::read("sql_pass"));
+		}catch (\PDOException $e){
 			return false;
 		}
 
@@ -50,6 +52,3 @@ class DBCommon{
 		return self::$_usedSqls;
 	}
 }
-
-//db接続確立、DB接続済みインスタンスをグローバル変数$pdoへ代入
-//$pdo = dbConnect();
