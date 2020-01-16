@@ -105,10 +105,10 @@ $catch = DBCommon::selectQueryExe($pdo
 $nhrses = $catch->fetchAll(PDO::FETCH_ASSOC);
 
 //smarty準備
-//$smarty = new Smarty();
-$smarty = new SmartyBC();
+$smarty = new Smarty();
+//$smarty = new SmartyBC();
 //$smarty->allow_php_tag = true; これはダメだった。多くのリファレンスサイトに書かれていた方法なのだが…
-$smarty->php_handling = Smarty::PHP_ALLOW;
+//$smarty->php_handling = Smarty::PHP_ALLOW;
 $smarty->template_dir = ConfigUtil::read("smarty_work_templ_dir");
 $smarty->compile_dir  = ConfigUtil::read("smarty_work_templ_c_dir");
 $smarty->config_dir   = ConfigUtil::read("smarty_work_templ_conf_dir");
